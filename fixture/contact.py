@@ -42,6 +42,7 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # popup close
         wd.switch_to_alert().accept()
+        self.open_contactlist_page()
 
     def edit_first_contact(self, contact):
         wd = self.app.wd
