@@ -6,17 +6,7 @@ class ContactHelper:
     def create(self, contact):
         wd = self.app.wd
         self.open_contact_page()
-        # fill contact form
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(contact.firstname)
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(contact.lastname)
-        wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys(contact.address)
-        wd.find_element_by_name("home").clear()
-        wd.find_element_by_name("home").send_keys(contact.home)
-        wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys(contact.email)
+        self.fill_contact_form(contact)
         # submit contact creation
         wd.find_element_by_name("submit").click()
         self.return_to_home_page()
@@ -49,17 +39,32 @@ class ContactHelper:
         self.open_contactlist_page()
         # open edit form for first contact
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
-        # fill contact edit form
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(contact.firstname)
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(contact.lastname)
-        wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys(contact.address)
-        wd.find_element_by_name("home").clear()
-        wd.find_element_by_name("home").send_keys(contact.home)
-        wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys(contact.email)
+        self.fill_contact_form(contact)
         # submit update
         wd.find_element_by_name("update").click()
         self.return_to_home_page()
+
+    def fill_contact_form(self, contact):
+        wd = self.app.wd
+        self.change_field_value("firstname", contact.firstname)
+        self.change_field_value("lastname", contact.lastname)
+        self.change_field_value("address", contact.address)
+        self.change_field_value("home", contact.home)
+        self.change_field_value("email", contact.email)
+
+    def change_field_value(self, field_name, text):
+        wd = self.app.wd
+        if text is not None:
+            wd.find_element_by_name(field_name).click()
+            wd.find_element_by_name(field_name).clear()
+            wd.find_element_by_name(field_name).send_keys(text)
+
+    def count(self):
+        wd = self.app.wd
+        self.open_contactlist_page()
+        return len(wd.find_elements_by_name("selected[]"))
+
+    def ensure_not_empty_contact_list(self, contact):
+        wd = self.app.wd
+        if self.count() == 0:
+            self.create(contact)
