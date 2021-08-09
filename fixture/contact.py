@@ -5,38 +5,41 @@ class ContactHelper:
 
     def create(self, contact):
         wd = self.app.wd
-        self.open_contact_page()
+        self.open_contact_add_page()
         self.fill_contact_form(contact)
         # submit contact creation
         wd.find_element_by_name("submit").click()
         self.return_to_home_page()
 
-    def open_contact_page(self):
+    def open_contact_add_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("add new").click()
+        if not (wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("submit")) > 0):
+            wd.find_element_by_link_text("add new").click()
 
-    def open_contactlist_page(self):
+    def open_contact_list_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        if not len(wd.find_elements_by_xpath("//input[@value='Send e-Mail']")) > 0:
+            wd.find_element_by_link_text("home").click()
 
     def return_to_home_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home page").click()
+        if not (wd.current_url.endswith("/index.php") and len(wd.find_elements_by_xpath("//input[@value='Send e-Mail']")) > 0):
+            wd.find_element_by_link_text("home page").click()
 
     def delete_first_contact(self):
         wd = self.app.wd
-        self.open_contactlist_page()
+        self.open_contact_list_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # submit deletion
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # popup close
         wd.switch_to_alert().accept()
-        self.open_contactlist_page()
+        self.open_contact_list_page()
 
     def edit_first_contact(self, contact):
         wd = self.app.wd
-        self.open_contactlist_page()
+        self.open_contact_list_page()
         # open edit form for first contact
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         self.fill_contact_form(contact)
@@ -61,7 +64,7 @@ class ContactHelper:
 
     def count(self):
         wd = self.app.wd
-        self.open_contactlist_page()
+        self.open_contact_list_page()
         return len(wd.find_elements_by_name("selected[]"))
 
     def ensure_not_empty_contact_list(self, contact):
