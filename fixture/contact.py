@@ -1,3 +1,4 @@
+import time
 from model.contact import Contact
 
 
@@ -38,6 +39,8 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # popup close
         wd.switch_to_alert().accept()
+        time.sleep(1)
+        wd.find_element_by_css_selector("div.msgbox")
         self.open_contact_list_page()
 
     def edit_first_contact(self, contact):
