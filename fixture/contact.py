@@ -14,6 +14,7 @@ class ContactHelper:
         # submit contact creation
         wd.find_element_by_name("submit").click()
         self.return_to_home_page()
+        self.contact_cache = None
 
     def open_contact_add_page(self):
         wd = self.app.wd
@@ -42,6 +43,7 @@ class ContactHelper:
         time.sleep(1)
         wd.find_element_by_css_selector("div.msgbox")
         self.open_contact_list_page()
+        self.contact_cache = None
 
     def edit_first_contact(self, contact):
         wd = self.app.wd
@@ -52,6 +54,7 @@ class ContactHelper:
         # submit update
         wd.find_element_by_name("update").click()
         self.return_to_home_page()
+        self.contact_cache = None
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
@@ -78,13 +81,16 @@ class ContactHelper:
         if self.count() == 0:
             self.create(contact)
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.open_contact_list_page()
-        contacts = []
-        for element in wd.find_elements_by_name("entry"):
-            lastname_text = element.find_elements_by_tag_name("td")[1].text
-            firstname_text = element.find_elements_by_tag_name("td")[2].text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contacts.append(Contact(lastname=lastname_text, firstname=firstname_text, id=id))
-        return contacts
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.open_contact_list_page()
+            self.contact_cache = []
+            for element in wd.find_elements_by_name("entry"):
+                lastname_text = element.find_elements_by_tag_name("td")[1].text
+                firstname_text = element.find_elements_by_tag_name("td")[2].text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(lastname=lastname_text, firstname=firstname_text, id=id))
+        return list(self.contact_cache)
