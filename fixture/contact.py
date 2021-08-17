@@ -110,10 +110,9 @@ class ContactHelper:
                 lastname_text = element.find_elements_by_tag_name("td")[1].text
                 firstname_text = element.find_elements_by_tag_name("td")[2].text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                all_phones = element.find_elements_by_tag_name("td")[5].text.splitlines()
+                all_phones = element.find_elements_by_tag_name("td")[5].text
                 self.contact_cache.append(Contact(lastname=lastname_text, firstname=firstname_text, id=id,
-                                                  home=all_phones[0], mobile=all_phones[1],
-                                                  work=all_phones[2]))
+                                                  all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
 
     def get_contact_info_from_edit_page(self, index):
