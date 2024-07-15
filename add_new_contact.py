@@ -11,7 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
-class TestTestaddcontact():
+class TestAddContact():
     def setup_method(self, method):
         self.driver = webdriver.Chrome()
         self.vars = {}
@@ -19,67 +19,52 @@ class TestTestaddcontact():
     def teardown_method(self, method):
         self.driver.quit()
 
-    def test_testaddcontact(self):
-        self.driver.get("http://localhost/addressbook/")
-        self.driver.set_window_size(1724, 996)
-        self.driver.find_element(By.ID, "LoginForm").click()
-        self.driver.find_element(By.NAME, "user").send_keys("admin")
-        self.driver.find_element(By.NAME, "pass").click()
-        self.driver.find_element(By.NAME, "pass").send_keys("secret")
-        self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(7)").click()
-        self.driver.find_element(By.LINK_TEXT, "add new").click()
-        self.driver.find_element(By.NAME, "firstname").click()
-        self.driver.find_element(By.NAME, "firstname").send_keys("Anna")
-        self.driver.find_element(By.NAME, "middlename").click()
-        self.driver.find_element(By.NAME, "middlename").send_keys("Maria")
-        self.driver.find_element(By.NAME, "lastname").click()
-        self.driver.find_element(By.NAME, "lastname").send_keys("Tener")
-        self.driver.find_element(By.NAME, "nickname").click()
-        self.driver.find_element(By.NAME, "nickname").send_keys("annate")
-        self.driver.find_element(By.NAME, "title").click()
-        self.driver.find_element(By.NAME, "title").send_keys("Title Anna")
-        self.driver.find_element(By.NAME, "company").click()
-        self.driver.find_element(By.NAME, "company").send_keys("Company Anna")
-        self.driver.find_element(By.NAME, "address").click()
-        self.driver.find_element(By.NAME, "address").send_keys("Address Anna")
-        self.driver.find_element(By.NAME, "home").click()
-        self.driver.find_element(By.NAME, "home").send_keys("+79215674523")
-        self.driver.find_element(By.NAME, "mobile").click()
-        self.driver.find_element(By.NAME, "mobile").send_keys("+79991111111")
-        self.driver.find_element(By.NAME, "work").click()
-        self.driver.find_element(By.NAME, "work").send_keys("+7888222222")
-        self.driver.find_element(By.NAME, "fax").click()
-        self.driver.find_element(By.NAME, "fax").send_keys("+77773333333")
-        self.driver.find_element(By.NAME, "email").click()
-        self.driver.find_element(By.NAME, "email").click()
-        self.driver.find_element(By.NAME, "email").send_keys("anna@test.ru")
-        self.driver.find_element(By.NAME, "email2").click()
-        self.driver.find_element(By.NAME, "email2").click()
-        self.driver.find_element(By.NAME, "email2").send_keys("anna2@test.ru")
-        self.driver.find_element(By.NAME, "email3").click()
-        self.driver.find_element(By.NAME, "email3").click()
-        self.driver.find_element(By.NAME, "email3").send_keys("anna3@test.ru")
-        self.driver.find_element(By.NAME, "homepage").click()
-        self.driver.find_element(By.NAME, "homepage").send_keys("http://localhost/addressbook/")
-        self.driver.find_element(By.NAME, "bday").click()
-        dropdown = self.driver.find_element(By.NAME, "bday")
-        dropdown.find_element(By.XPATH, "//option[. = '1']").click()
-        self.driver.find_element(By.NAME, "bmonth").click()
-        dropdown = self.driver.find_element(By.NAME, "bmonth")
-        dropdown.find_element(By.XPATH, "//option[. = 'January']").click()
-        self.driver.find_element(By.NAME, "byear").click()
-        self.driver.find_element(By.NAME, "byear").send_keys("1991")
-        self.driver.find_element(By.NAME, "aday").click()
-        dropdown = self.driver.find_element(By.NAME, "aday")
-        dropdown.find_element(By.XPATH, "//option[. = '10']").click()
-        self.driver.find_element(By.NAME, "amonth").click()
-        dropdown = self.driver.find_element(By.NAME, "amonth")
-        dropdown.find_element(By.XPATH, "//option[. = 'June']").click()
-        self.driver.find_element(By.NAME, "ayear").click()
-        self.driver.find_element(By.NAME, "ayear").send_keys("2002")
-        self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(75)").click()
+    def test_add_contact(self):
+        self.open_home_page()
+        self.login()
+        self.create_new_contact()
+        self.return_to_home_page()
+        self.logout()
+
+    def return_to_home_page(self):
         self.driver.find_element(By.LINK_TEXT, "home page").click()
+
+    def create_new_contact(self):
+        self.driver.find_element(By.LINK_TEXT, "add new").click()
+        self.driver.find_element(By.NAME, "firstname").send_keys("Anna")
+        self.driver.find_element(By.NAME, "middlename").send_keys("Maria")
+        self.driver.find_element(By.NAME, "lastname").send_keys("Tener")
+        self.driver.find_element(By.NAME, "nickname").send_keys("annate")
+        self.driver.find_element(By.NAME, "title").send_keys("Title Anna")
+        self.driver.find_element(By.NAME, "company").send_keys("Company Anna")
+        self.driver.find_element(By.NAME, "address").send_keys("Address Anna")
+        self.driver.find_element(By.NAME, "home").send_keys("+79215674523")
+        self.driver.find_element(By.NAME, "mobile").send_keys("+79991111111")
+        self.driver.find_element(By.NAME, "work").send_keys("+7888222222")
+        self.driver.find_element(By.NAME, "fax").send_keys("+77773333333")
+        self.driver.find_element(By.NAME, "email").send_keys("anna@test.ru")
+        self.driver.find_element(By.NAME, "email2").send_keys("anna2@test.ru")
+        self.driver.find_element(By.NAME, "email3").send_keys("anna3@test.ru")
+        self.driver.find_element(By.NAME, "homepage").send_keys("http://localhost/addressbook/")
+        dropdown = self.driver.find_element(By.NAME, "bday")
+        dropdown.find_element(By.XPATH, "//select[@name='bday']/option[. = '1']").click()
+        dropdown.find_element(By.XPATH, "//select[@name='bmonth']/option[. = 'January']").click()
+        self.driver.find_element(By.NAME, "byear").send_keys("1991")
+        dropdown.find_element(By.XPATH, "//select[@name='aday']/option[. ='9']").click()
+        dropdown.find_element(By.XPATH, "//select[@name='amonth']/option[. = 'June']").click()
+        self.driver.find_element(By.NAME, "ayear").send_keys("2002")
+        self.driver.find_element(By.CSS_SELECTOR, "input[type='submit']").click()
+
+    def open_home_page(self):
+        self.driver.get("http://localhost/addressbook/")
+
+    def logout(self):
         self.driver.find_element(By.LINK_TEXT, "Logout").click()
+
+    def login(self):
+        self.driver.find_element(By.NAME, "user").send_keys("admin")
+        self.driver.find_element(By.NAME, "pass").send_keys("secret")
+        self.driver.find_element(By.CSS_SELECTOR, "input[type='submit']").click()
 
 
 
