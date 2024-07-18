@@ -11,7 +11,7 @@ def app(request):
 
 
 def test_add_contact(app):
-    app.login(username="admin", password="secret")
+    app.session.login(username="admin", password="secret")
     app.create_new_contact(Contact(
             firstname="Anna", middlename="Maria", lastname="Tener", nickname="annate",
             title="Title Anna", company="Company Anna", address="Address Anna",
@@ -19,4 +19,4 @@ def test_add_contact(app):
             email="anna@test.ru",email2="anna2@test.ru", email3="anna3@test.ru",
             homepage="http://localhost/addressbook/",
             bday="1", bmonth="January", byear="2002", aday="7", amonth="June", ayear="2021"))
-    app.logout()
+    app.session.logout()
