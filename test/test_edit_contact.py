@@ -8,4 +8,12 @@ def test_edit_first_contact(app):
             tel_home="+79215674523", tel_mobile="+79991111111", tel_work="+7888222222", tel_fax="+77773333333",
             email="annaupdate@test.ru",email2="anna2update@test.ru", email3="anna3update@test.ru",
             homepage="http://localhost/addressbook/",
-            bday="2", bmonth="January", byear="2022", aday="22", amonth="June", ayear="2022"))
+            bday="2", bmonth="October", byear="2022", aday="22", amonth="June", ayear="2022"))
+
+
+def test_edit_first_contact_firstname(app):
+    app.contact.edit_first_contact(Contact(firstname="New Anna update"))
+
+
+def test_edit_first_contact_bmonth(app):
+    app.contact.edit_first_contact(Contact(bmonth="December"))
